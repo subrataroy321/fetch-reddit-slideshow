@@ -2,11 +2,7 @@ const body = document.querySelector('body');
 
 
 
-    const container = document.createElement('div');
-    container.classList.add('container');
-    container.style.textAlign = 'center';
-    container.style.color = ' #f5f5f5;';
-    body.appendChild(container);
+    const container = document.querySelector('.container')
     
     const imageLogoDiv = document.createElement('div');
     imageLogoDiv.classList.add('image');
@@ -28,6 +24,7 @@ const body = document.querySelector('body');
     header.textContent = 'Panda Image Search';
     
     const input = document.createElement('input');
+    input.id = 'searchText';
     input.type = 'Search';
     input.height= '36px';
     input.width= '450px';
@@ -35,7 +32,7 @@ const body = document.querySelector('body');
     
     
     const button = document.createElement('button');
-    button.id = 'searchText';
+   
     button.type = "button";
     button.innerText = "🔍  Search";
     button.style.height= '36px';
@@ -49,43 +46,70 @@ const body = document.querySelector('body');
     container.appendChild(searchDiv);
     
     const buttonTag = document.querySelector('button');
-    const searchText = buttonTag.addEventListener('click', (event) => {
-        const searchTag = document.getElementById('searchText');
+    const inputText = buttonTag.addEventListener('click', (event) => {
+        const inputTag = document.getElementById('searchText').value;
+        // console.log(inputTag.value)
+
+        reloadButton = document.createElement('button');
+        searchDiv.appendChild(reloadButton);
+
+        reloadButton.addEventListener('click', event => {
+            reload = location.reload();
+        })
+
+    
+
+
         
-        return searchTag.value;
 
-    });
-    
-    document.addEventListener('DOMContentLoaded', (event) => {
+            fetch('http://www.reddit.com/search.json?q='+inputTag+'+nsfw:no')
+            .then(response => {
+                if(response.status === 200){
+                    // console.log(response)
+                    return response.json();
+                }
+            })
+            .then(responseData => {
+                const resData = responseData.data.children;
+                
 
-    fetch('http://www.reddit.com/search.json?q='+searchText+'+nsfw:no')
-    .then(response => {
+                for (i=0 ; i<resData.length; i++){
+                    if(resData[i].data.url == ''){
+                        resImage = resData[i].data.url_overridden_by_dest;
+                        results(resImage);
+                    } else {
 
-    return response.json();
-    })
-    .then(data => {
+                        resImage = resData[i].data.url;
+                        results(resImage);
+                        
+                    }
 
-    console.log(data)
+                    
 
+                }
+                // removeButtonTag = document.querySelector('.search')
+                // removeButtonTag..removeElement('button');
+                // removeImageLogo = document.querySelector('.image').removeElement('img');
 
+               
+        
+        
+            })
+            // .catch(error => {
+            //     console.log('This is an error' + error);
+        
+            // })
 
-    });
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 });
+
+function results(resultImage){
+    resImageDiv = document.createElement('div');
+    container.appendChild(resImageDiv);
+
+    resImageTag = document.createElement('img');
+    resImageTag.src = resultImage;
+    resImageTag.style.width = '500px';
+
+    resImageDiv.appendChild(resImageTag);
+
+}

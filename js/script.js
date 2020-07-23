@@ -1,7 +1,6 @@
 const body = document.querySelector('body');
 
-document.addEventListener('DOMContentLoaded', (event) => {
-    
+
 
     const container = document.createElement('div');
     container.classList.add('container');
@@ -21,7 +20,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     imageLogoDiv.appendChild(document.createElement('br'));
     
     // const newLine = imageLogoDiv.innerHTML= '</br> </br>';
-
+    
     const searchDiv = document.createElement('div');
     searchDiv.classList.add('search');
     
@@ -36,6 +35,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     
     
     const button = document.createElement('button');
+    button.id = 'searchText';
     button.type = "button";
     button.innerText = "🔍  Search";
     button.style.height= '36px';
@@ -47,24 +47,45 @@ document.addEventListener('DOMContentLoaded', (event) => {
     searchDiv.appendChild(document.createElement('br'));
     searchDiv.appendChild(button);
     container.appendChild(searchDiv);
-
-
     
+    const buttonTag = document.querySelector('button');
+    const searchText = buttonTag.addEventListener('click', (event) => {
+        const searchTag = document.getElementById('searchText');
+        
+        return searchTag.value;
 
-
+    });
     
+    document.addEventListener('DOMContentLoaded', (event) => {
+
+    fetch('http://www.reddit.com/search.json?q='+searchText+'+nsfw:no')
+    .then(response => {
+
+    return response.json();
+    })
+    .then(data => {
+
+    console.log(data)
 
 
 
-    console.log(container);
-
-
-
-
-
-
-
-
-
-
+    });
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 });

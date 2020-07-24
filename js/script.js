@@ -95,10 +95,10 @@ const body = document.querySelector('body');
         
         
             })
-            // .catch(error => {
-            //     console.log('This is an error' + error);
+            .catch(error => {
+                console.log('This is an error' + error);
         
-            // })
+            })
 
 });
 
